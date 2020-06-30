@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)http://v.bootstrapmb.com/2018/7/rlrum1631/cart.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>购物车</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+
+</head>
+<body class="cart">
+{include file="public/static/book/header/header.html"}
+
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="{:url('/show_index')}">主页</a></li>
+                        <li><a href="#" class="active">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- breadcrumbs-area-end --><!-- entry-header-area-start -->
+{if ($result==1)}
+<div class="entry-header-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="entry-header-title"><h2>购物车</h2></div>
+            </div>
+        </div>
+    </div>
+</div><!-- entry-header-area-end --><!-- cart-main-area-start -->
+
+<div class="cart-main-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                    <div class="table-content table-responsive">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="product-thumbnail">图片</th>
+                                <th class="product-name">商品</th>
+                                <th class="product-price">价格</th>
+                                <th class="product-quantity">数量</th>
+                                <th class="product-subtotal">小计</th>
+                                <th class="product-remove">移除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $cart as $item}
+                            <tr>
+                                <td class="product-thumbnail"><a
+                                        href="{:url('/show_details')}/bid/{$item.bid}" style="text-decoration: none"><img
+                                        src="__IMAGE__/{$item.cover}" alt="man"></a></td>
+                                <td class="product-name"><a href="">{$item.name}</a>
+                                </td>
+                                <td class="product-price"><span class="amount">¥{$item.price}</span></td>
+                                <td class="product-quantity">
+                                    <span class="add" style="cursor:pointer"><button class="text_box1"
+                                                                                     value="{$item.bid}"
+                                                                                     hidden></button><strong>+</strong></span>
+                                    <label>
+                                        <input class="text_box" name="" type="text" value="{$item.num}"
+                                               disabled="disabled"/>
+                                    </label>
+                                    <span class="min" style="cursor:pointer"><strong>-</strong></span>
+                                </td>
+                                <td class="product-subtotal">¥{$item.totalPrice}</td>
+                                <td class="product-remove"><span onclick='remove_cart_item("{$item.bid}")'
+                                                                 style="cursor:pointer"><i
+                                        class="fa fa-times"></i></span></td>
+                            </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                <div class="buttons-cart mb-30">
+                    <ul>
+                        <li><a href="{:url('/show_cart')}">更新购物车</a></li>
+                        <li><a href="{:url('/show_index')}">继续购物</a></li>
+                    </ul>
+                </div>
+                <div class="coupon"><h3>优惠券</h3>
+                    <p>如果你有优惠券可以使用</p>
+                    <form action="#"><input type="text" placeholder="优惠卷码"><a
+                            href="#">提交</a></form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="cart_totals"><h2>购物车结算</h2>
+                    <table>
+                        <tbody>
+                        <tr class="cart-subtotal">
+                            <th></th>
+                            <td><span class="amount">¥{$allPrice}</span></td>
+                        </tr>
+                        <tr class="shipping">
+                            <th>相关运费</th>
+                            <td>
+                                <ul id="shipping_method">
+                                    <li><label>国内运费统一价: <span class="amount">¥15.00</span></label>
+                                    </li>
+                                    <li><label>免费配送</label></li>
+                                </ul>
+                                {if ($allPrice>100)}
+                                <span>您结算的订单金额大于100元免运费</span>
+                            </td>
+                        </tr>
+                        <tr class="order-total">
+                            <th>总共</th>
+                            <td><strong><span class="amount">¥{$allPrice}</span></strong></td>
+                        </tr>
+                        </tbody>
+                        {else /}
+                        <span>您结算的订单金额小于需要付¥15.00运费</span>
+
+
+                        </td>
+                        </tr>
+                        <tr class="order-total">
+                            <th>总共</th>
+                            <td><strong><span class="amount">¥{$allPrice+15}</span></strong></td>
+                        </tr>
+                        </tbody>
+                        {/if}
+                    </table>
+                    <div class="wc-proceed-to-checkout"><a href="{:url('/show_check')}">提交订单</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cart-main-area-end --><!-- footer-area-start -->
+{else /}
+<div>
+    <img src="__STATIC__/images/cart-empty.png" alt="">
+</div>
+
+<br>
+<div>
+    <h1>购物车是空的！</h1>
+</div>
+{/if}
+
+{include file="public/static/book/footer/footer.html"}
+<script type="text/javascript">
+    function remove_cart_item(bid) {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/remove_cart_item')}",//url
+            data: {
+                bid: bid,
+            },
+            success: function (result) {
+                if (result.msg === 1) {
+                    alert("移除成功！");
+                    window.location.href = "{:url('/show_cart')}"
+                } else {
+                    alert("移除失败！");
+                }
+            },
+            error: function (result) {
+                console.log(result);
+                layer.msg("服务器繁忙,请稍后重试!", {icon: 0, time: 1000})
+            }
+        });
+    }
+
+    $(function () {
+        $(".add").click(function () {
+            var bid = $(this).parent().find("button[class*=text_box1]");
+            var t = $(this).parent().find('input[class*=text_box]');
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "{:url('/cart_item_num')}",//url
+                data: {
+                    bid: bid.val(),
+                    flag: 1
+                },
+                success: function (result) {
+                    if (result.msg === 1) {
+                        t.val(parseInt(t.val()) + 1);
+                    } else {
+                        alert("添加失败！");
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                    layer.msg("服务器繁忙,请稍后重试!", {icon: 0, time: 1000})
+                }
+            });
+        });
+        $(".min").click(function () {
+            var bid = $(this).parent().find("button[class*=text_box1]");
+            var t = $(this).parent().find("input[class*=text_box]");
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "{:url('/cart_item_num')}",//url
+                data: {
+                    bid: bid.val(),
+                    flag: 2
+                },
+                success: function (result) {
+                    if (result.msg === 1) {
+                        t.val(parseInt(t.val()) - 1);
+                    } else {
+                        alert("减少失败！");
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                    layer.msg("服务器繁忙,请稍后重试!", {icon: 0, time: 1000})
+                }
+            });
+            if (parseInt(t.val()) === 0) {
+                t.val(1);
+                alert("商品最低数量为1");
+            }
+        })
+    })
+</script>
+</body>
+</html>

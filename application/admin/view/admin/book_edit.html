@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="__ADMIN__/css/font.css">
+    <link rel="stylesheet" href="__ADMIN__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__ADMIN__/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+          <a href="#" style="text-decoration: none">商品管理</a>
+              <a href="{:url('/show_book_list')}" style="text-decoration: none">商品列表</a>
+              <a href="#" style="text-decoration: none">
+                  <cite>商品编辑</cite>
+              </a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right;text-decoration:none" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <form class="layui-form" >
+    <input type="hidden" value="{$result.bid}" name="bid" id="bid">
+    <div class="layui-form-item">
+        <label for="bookname" class="layui-form-label">
+            <span class="x-red">*</span>书名
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="bookname" name="bname" value="{$result.bname}" required=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="type" class="layui-form-label">
+            <span class="x-red">*</span>类型
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="type" name="type" required="" value="{$result.type}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="detail" class="layui-form-label">
+            详情描述
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="detail" name="detail" required="" value="{$result.detail}"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            可不填
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="price" class="layui-form-label">
+            <span class="x-red">*</span>价格(元)
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="price" name="price" required="" value="{$result.price}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="writer" class="layui-form-label">
+            <span class="x-red">*</span>作者
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="writer" name="writer" required="" value="{$result.writer}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="printer" class="layui-form-label">
+            <span class="x-red">*</span>出版社
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="printer" name="printer" required="" value="{$result.printer}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="store" class="layui-form-label">
+            <span class="x-red">*</span>库存
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="store" name="store" required="" value="{$result.store}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    </form>
+    <div class="layui-form-item">
+        <label for="price" class="layui-form-label">
+        </label>
+        <button class="layui-btn" onclick="edit_book()">更新</button>
+    </div>
+</div>
+<script>
+    function edit_book() {
+        let bid = $("#bid").val();
+        let bname = $("#bookname").val();
+        let type = $("#type").val();
+        let detail = $("#detail").val();
+        let price = $("#price").val();
+        let writer = $("#writer").val();
+        let printer = $("#printer").val();
+        let store = $("#store").val();
+        $.ajax({
+            type: "post",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/book_edit')}",//url
+            data: {
+                bid: bid,
+                bname: bname,
+                type: type,
+                detail: detail,
+                price: price,
+                writer: writer,
+                printer: printer,
+                store: store
+            },
+            success: function (result) {
+                if (result.msg === 1) {
+                    layer.msg("更新成功", {icon:1,time:1000});
+                    window.location.href = ("{:url('/show_book_list')}");
+                } else if (result.msg === 0) {
+                    layer.msg('更新失败', {icon: 2, time: 1000});
+                } else {
+                    layer.msg(result.msg);
+                }
+            },
+            error: function (result) {
+                layer.msg("服务器繁忙,请稍后重试!", {icon: 0, time: 1000})
+            }
+        });
+
+    }
+</script>
+</body>
+</html>

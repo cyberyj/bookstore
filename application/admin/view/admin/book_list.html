@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>商品添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__ADMIN__/css/font.css">
+    <link rel="stylesheet" href="__ADMIN__/css/xadmin.css">
+    <link rel="stylesheet" href="__ADMIN__/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__ADMIN__/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="__ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__ADMIN__/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body class="layui-anim layui-anim-up">
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="#" style=" text-decoration:none;">商品管理</a>
+        <a href="#" style=" text-decoration:none;">商品列表</a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right;text-decoration:none" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+
+      <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <a class="layui-btn" href="{:url('/show_book_add')}" style="text-decoration:none;">添加</a>
+        <span class="x-right" style="line-height:40px">共有数据：{$book_count} 条</span>
+      </xblock>
+      <table class="layui-table">
+        <thead>
+          <tr>
+            <th>
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th>书名</th>
+            <th>类型</th>
+            <th>数量</th>
+            <th>价格</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>操作</th>
+          </tr>
+
+        </thead>
+        <tbody>
+        {volist name='books' id='book'}
+          <tr>
+            <td>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$book.bid}'><i class="layui-icon">&#xe605;</i></div>
+            </td>
+            <td>{$book.bname}</td>
+            <td>{$book.type}</td>
+            <td>{$book.store}本</td>
+            <td>{$book.price}元</td>
+            <th>{$book.writer}</th>
+            <td>{$book.printer}</td>
+            <td class="td-manage">
+
+              <a title="编辑"  style=" text-decoration:none;" href="{:url('/show_book_edit')}/{$book.bid}">
+
+                <i class="layui-icon">&#xe642;</i>
+              </a>
+              <a title="删除" style=" text-decoration:none;" onclick="member_del(this,'{$book.bid}')" href="javascript:;">
+                <i class="layui-icon">&#xe640;</i>
+              </a>
+            </td>
+          </tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+    <nav aria-label="Page navigation" style="text-align: center">
+      <ul class="pagination">
+        {$books|raw}
+      </ul>
+    </nav>
+    <script>
+
+      /*用户-删除*/
+      function member_del(obj,id){
+          layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+              type: "POST",//方法类型
+              dataType: "json",//预期服务器返回的数据类型
+              url: "{:url('/book_delete')}",//url
+              data: {
+                bid: id,
+              },
+              success: function (result) {
+                if (result.msg===1){
+                  $(obj).parents("tr").remove();
+                   layer.msg('已删除!',{icon:1,time:1000});
+
+                }else if (result.msg===0) {
+                  layer.msg('删除失败',{icon:2,time:1000});
+                }else {
+                  layer.msg(result.msg);
+                }
+              },
+              error:function (result) {
+                layer.msg("服务器繁忙,请稍后重试!",{icon:0,time:1000})
+              }
+            });
+          });
+      }
+
+      function delAll (argument) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要删除吗？',function(index){
+          if (data.length == 0){
+            layer.msg('删除成功', {icon: 1,time:1000});
+            return
+          }
+          //捉到所有被选中的，发异步进行删除
+          $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/book_delete_s')}",//url
+            data: {
+              bids: data,
+            },
+            success: function (result) {
+              if(result.msg == 1){
+                $(".layui-form-checked").not('.header').parents('tr').remove();
+                layer.msg('删除成功', {icon: 1});
+              }else{
+                layer.msg(result.msg, {icon:1,time:1000});
+              }
+            },
+            error:function (result) {
+              console.log(result);
+              layer.msg("服务器繁忙,请稍后重试!",{icon:0,time:1000})
+            }
+          });
+
+        });
+      }
+</script>
+  </body>
+
+</html>

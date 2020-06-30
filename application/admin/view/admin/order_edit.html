@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>订单编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__ADMIN__/css/font.css">
+    <link rel="stylesheet" href="__ADMIN__/css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__ADMIN__/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="__ADMIN__/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+      <style>
+          .order-edit-top{
+              display: block;
+              margin-top: 10px !important;
+          }
+      </style>
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a href="#" style="text-decoration: none">订单管理</a>
+              <a href="{:url('/show_order_list')}" style="text-decoration: none">订单列表</a>
+              <a href="#"style="text-decoration: none">
+                  <cite>订单修改</cite>
+              </a>
+            </span>
+        </div>
+        {volist name='order_data' id='item'}
+        <form class="layui-form order-edit-top">
+          <div class="layui-form-item">
+              <label for="consignee" class="layui-form-label">
+                  <span class="x-red">*</span>收货人
+              </label>
+              <div class="layui-input-inline">
+                  <input type="hidden" name="oid" value="{$item.o_id}">
+                  <input type="hidden" name="uid" value="{$item.u_id}">
+                  <input type="hidden" name="h_a_id" value="{$item.h_a_id}">
+                  <input type="text" id="consignee" name="consignee" required="" lay-verify="required"
+                  autocomplete="off" value="{$item.consignee}" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>唯一的收货人姓名
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="contact" class="layui-form-label">
+                  <span class="x-red">*</span>联系电话
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="{$item.contact}" id="contact" name="contact" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>收货人的手机号码
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="all_price" class="layui-form-label">
+                  <span class="x-red">*</span>总金额
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="{$item.all_price}" id="all_price" name="all_price" required=""
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="discounts" class="layui-form-label">
+                  <span class="x-red">*</span>优惠金额
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" value="{$item.discounts}" id="discounts" name="discounts" required=""
+                         autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>优惠活动金额
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="goods_status" class="layui-form-label">
+                  <span class="x-red">*</span>发货状态
+              </label>
+              <div class="layui-input-inline">
+                  <select name="status" id="goods_status" required lay-verify="order_state">
+                      <option value="-1">请选择发货状态</option>
+                      {volist name='order_status' id='status_item'}
+                      <option value="{$status_item.os_id}">{$status_item.state}</option>
+                      {/volist}
+                  </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>当前状态->{$item.status}
+              </div>
+          </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>收货地址
+                </label>
+                <div class="layui-input-block" style="width: 40%">
+                    <textarea name="addr" placeholder="收货地址" class="layui-textarea">{$item.addr}</textarea>
+                </div>
+            </div>
+          <div class="layui-form-item">
+              <label for="edit" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" id="edit" lay-submit="">
+                  更新
+              </button>
+          </div>
+      </form>
+        {/volist}
+    </div>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+        
+          //自定义验证规则
+          form.verify({
+            order_state: function(value){
+              if(value == -1){
+                return '请选择收获状态！';
+              }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+          });
+
+          //监听提交
+          form.on('submit(add)', function(data){
+              //发异步，把数据提交给php
+              $.ajax({
+                  type: "POST",//方法类型
+                  url: "{:url('/order_update')}",//url
+                  data: $(".layui-form").serialize(),
+                  success: function (result) {
+                      if(result.msg == 1){
+                          layer.msg('修改成功!', {icon:1,time:2000});
+                      }else{
+                          layer.msg(result.msg, {icon:0,time:1000});
+                      }
+                  },
+                  error:function (result) {
+                      layer.msg("服务器繁忙,请稍后重试!",{icon:2,time:1000})
+                  }
+              });
+              return false;
+          });
+          
+          
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
+
+</html>

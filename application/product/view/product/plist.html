@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)http://v.bootstrapmb.com/2018/7/rlrum1631/shop.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>商品列表</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .pagination{
+            position: absolute;
+            right: 10px;
+        }
+    </style>
+</head>
+<body class="shop">
+{include file="public/static/book/header/header.html"}
+<div class="breadcrumbs-area mb-70" style="border-bottom: none">
+
+</div><!-- breadcrumbs-area-end --><!-- shop-main-area-start -->
+<div class="shop-main-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="shop-left">
+                    <div class="section-title-5 mb-30"><h2>酷爱图书</h2></div>
+                    <div class="left-title mb-20"><h4>目录</h4></div>
+                    <div class="left-menu mb-30">
+                        <ul>
+                            {volist name='catalog_list' id='item'}
+                            <li><a href="{:url('/show_plist')}/type/{$item.name}">{$item.name}<span>({$item.value})</span></a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    <div class="left-title mb-20"><h4>排名</h4></div>
+                    <div class="random-area mb-30">
+                        <div class="product-active-2 owl-carousel owl-loaded owl-drag">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage"
+                                     style="transform: translate3d(-526px, 0px, 0px); transition: 0s; width: 1578px;">
+                                    <div class="owl-item cloned" style="width: 263px;">
+                                        <div class="product-total-2">
+                                            {volist name='bookOrderData' id='bookOrderItem'}
+                                            <div class="single-most-product bd mb-18">
+                                                <div class="most-product-img">
+                                                    <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                        <img src="__IMAGE__/{$bookOrderItem.cover}" alt="book">
+                                                    </a>
+                                                </div>
+                                                <div class="most-product-content">
+                                                    <div class="product-rating">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">
+                                                                    <i class="fa fa-star"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <h4>
+                                                        <a href="{:url('/show_details')}/bid/{$bookOrderItem.bid}">{$bookOrderItem.bname}</a>
+                                                    </h4>
+                                                    <div class="product-price">
+                                                        <ul>
+                                                            <li>￥{$bookOrderItem.price}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/volist}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-dots disabled"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                <div class="category-image mb-30"><a href="#"><img
+                        src="__STATIC__/images/32.jpg" alt="banner"></a></div>
+                <div class="section-title-5 mb-30"><h2>书籍</h2></div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="th">
+                        <div class="row">
+                            {volist name='bookData' id='bookDataItem'}
+                            <div class="col-lg-3 col-md-4 col-sm-6"><!-- single-product-start -->
+                                <div class="product-wrapper mb-40 hidden-sm">
+                                    <div class="product-img">
+                                        <a href="#">
+                                        <img style="width: 197px;height: 253px;" src="__IMAGE__/{$bookDataItem.cover}" alt="book"
+                                            class="primary"></a>
+                                        <div class="quick-view">
+                                            <button style="display: none" id="open" data-target="#productModal" data-toggle="modal">打开商品详情</button>
+                                            <a class="action-view" href="javascript:void(0);" onclick="showProductDetail('{$bookDataItem.bid}')" title="Quick View">
+                                                <i class="fa fa-search-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="product-flag">
+                                            <ul>
+                                                <li><span class="sale">new</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-details text-center">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="{:url('/show_details')}/bid/{$bookDataItem.bid}"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="{:url('/show_details')}/bid/{$bookDataItem.bid}"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="{:url('/show_details')}/bid/{$bookDataItem.bid}"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="{:url('/show_details')}/bid/{$bookDataItem.bid}"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="{:url('/show_details')}/bid/{$bookDataItem.bid}"><i
+                                                        class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4>
+                                            <input type="hidden" name="bid" value="{$bookDataItem.bid}">
+                                            <a href="{:url('/show_details')}/bid/{$bookDataItem.bid}">{$bookDataItem.bname}</a>
+                                        </h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>￥{$bookDataItem.price}</li>
+                                                <!--<li class="old-price">￥{$bookDataItem.price}</li>-->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-link">
+                                        <div class="product-button">
+                                            <a href="javascript:void(0);" onclick="add_cart_f('{$bookDataItem.bid}')" title="加入购物车">
+                                                <i class="fa fa-shopping-cart"></i>加入购物车
+                                            </a>
+                                        </div>
+                                        <div class="add-to-link">
+                                            <ul>
+                                                <li>
+                                                    <a href="{:url('/show_details')}/bid/{$bookDataItem.bid}" title="详细">
+                                                        <i class="fa fa-external-link"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- single-product-end --></div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div><!-- single-shop-end -->
+            </div>
+                </div><!-- tab-area-end --><!-- pagination-area-start -->
+                <div class="pagination-area mt-50" style="position: relative">
+                    {$bookData|raw}
+                </div><!-- pagination-area-end --></div>
+        </div>
+    </div>
+</div>
+{include file="public/static/book/footer/footer.html"}
+{include file="public/static/book/dialog/dialog.html"}
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="__STATIC__/css/bootstrap.min.css"><!-- animate css -->
+    <link rel="stylesheet" href="__STATIC__/css/animate.css"><!-- meanmenu css -->
+    <link rel="stylesheet" href="__STATIC__/css/meanmenu.min.css"><!-- owl.carousel css -->
+    <link rel="stylesheet" href="__STATIC__/css/owl.carousel.css"><!-- font-awesome css -->
+    <link rel="stylesheet" href="__STATIC__/css/font-awesome.min.css"><!-- flexslider.css-->
+    <link rel="stylesheet" href="__STATIC__/css/flexslider.css"><!-- chosen.min.css-->
+    <link rel="stylesheet" href="__STATIC__/css/chosen.min.css"><!-- style css -->
+    <link rel="stylesheet" href="__STATIC__/css/style.css"><!-- responsive css -->
+    <link rel="stylesheet" href="__STATIC__/css/responsive.css"><!-- modernizr css -->
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="__STATIC__/js/modernizr-2.8.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .search-btn{
+            background: #f07c29 none repeat scroll 0 0;
+            color: #fff;
+            display: inline-block;
+            font-size: 18px;
+            height: 42px;
+            line-height: 40px;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: 0;
+            width: 42px;
+            border-radius: 0 5px 5px 0px;
+            border: none;
+        }
+        .search-btn:hover{
+            background: #232323 none repeat scroll 0 0;
+        }
+    </style>
+</head>
+<body>
+<div class="_type">
+<!--[if lt IE 8]><p class="browserupgrade">你正在使用 <strong>过期的</strong>浏览器.
+    Please <a href="http://browsehappy.com/">升级你的浏览器/a>改善你的体验.</p><![endif]-->
+<!-- Add your site or application content here --><!-- header-area-start -->
+<header><!-- header-top-area-start -->
+    <div class="header-top-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="language-area">
+                        <ul>
+                            <li><a href="{:url('/show_index')}">网上书店</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="account-area text-right">
+                        <ul>
+                            {if $Think.session.username != null }
+                            <li><a href="#">{$Think.session.username}</a></li>
+                            <li><a href="{:url('/show_user_order')}">订单列表</a></li>
+                            <li><a href="{:url('/user_logout')}">退出</a></li>
+                            {else /}
+                            <li><a href="{:url('/show_register')}">注册</a></li>
+                            <li><a href="{:url('/show_login')}">登录</a></li>
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- header-top-area-end --><!-- header-mid-area-start -->
+    <div class="header-mid-area ptb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
+                    <div class="header-search">
+                        <form action="{:url('/show_plist')}">
+                            <input type="text" name="search" placeholder="您想看哪儿本书？">
+                            <button class="search-btn">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                    <div class="logo-area text-center logo-xs-mrg">
+                        <a href="#">
+                            <img src="__STATIC__/images/logo.png" alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="my-cart">
+                        <ul>
+                            <li><a href="#"><i
+                                    class="fa fa-shopping-cart"></i>购物车</a><span>{{product_num}}</span>
+                                <div class="mini-cart-sub">
+                                    <div class="cart-product" v-for="info in cart_info">
+                                        <div class="single-cart">
+                                            <div class="cart-img">
+                                                <a :href="'{:url('/show_details')}/bid/'+info.bid">
+                                                    <img :src="'__IMAGE__/'+info.cover" alt="book">
+                                                </a>
+                                            </div>
+                                            <div class="cart-info">
+                                                <h5><a :href="'{:url('/show_details')}/bid/'+info.bid">{{info.bname}}</a></h5>
+                                                <p>￥{{info.price}}</p><p>数量：{{info.num}}</p></div>
+                                            <div class="cart-icon">
+                                                <a href="javascript:void(0)" :onclick="'delete_cart_item('+info.bid+')'">
+                                                    <i class="fa fa-remove"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="cart_info.length > 0">
+                                        <div class="cart-totals"><h5>总价<span>￥{{total_price}}<span style="color: red;" v-if="product_num > 2">（只计算前三商品总价）</span></span></h5></div>
+                                        <div class="cart-bottom">
+                                            <a class="view-cart" href="{:url('/show_cart')}">我的购物车</a>
+                                            <a href="{:url('/show_check')}">结算</a></div>
+                                    </div>
+                                    <div v-if="cart_info.length < 1">
+                                        没有找到您喜欢的商品吗？
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- header-mid-area-end --><!-- main-menu-area-start -->
+    <div class="main-menu-area hidden-sm hidden-xs sticky-header-1" id="header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="menu-area">
+                        <nav>
+                            <ul>
+                                <li class="active">
+                                    <a href="{:url('/show_index')}">主页</a>
+                                </li>
+                                <li><a href="{:url('/show_plist')}">分类<i
+                                        class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu">
+                                        <span v-for="item in result.dataTypes">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="{:url('/show_plist')}">最新书籍<i class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu">
+                                        <span v-for="item in result.dataNew">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li><a href="{:url('/show_plist')}">畅销书籍<i class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu mega-menu-2">
+                                        <span v-for="item in result.dataBigSell">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- main-menu-area-end --><!-- mobile-menu-area-start -->
+    <div class="mobile-menu-area hidden-md hidden-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="mobile-menu">
+                        <nav id="mobile-menu-active" style="display: block;">
+                            <ul id="nav">
+                                <li class="active">
+                                    <a href="{:url('/show_index')}">主页</a>
+                                </li>
+                                <li><a href="{:url('/show_plist')}">分类<i
+                                        class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu">
+                                        <span v-for="item in result.dataTypes">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li><a href="{:url('/show_plist')}">最新书籍<i
+                                        class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu">
+                                        <span v-for="item in result.dataNew">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li><a href="{:url('/show_plist')}">畅销书籍<i class="fa fa-angle-down"></i></a>
+                                    <div class="mega-menu mega-menu-2">
+                                        <span v-for="item in result.dataBigSell">
+                                            <a :href="'{:url('/show_plist')}/type/'+item.type" class="title">{{item.type}}</a>
+                                            <a :href="'{:url('/show_details')}/bid/'+info.bid" v-for="info in item.value">{{info.bname}}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- mobile-menu-area-end --></header><!-- header-area-end --><!-- breadcrumbs-area-start --></div>
+</body>
+<script>
+    var type_data = {
+        result: {},
+        cart_info: [],
+        total_price: "0",
+        product_num: "0",
+    };
+    var type_vm = new Vue({
+        el: "._type",
+        data: type_data,
+        methods: {
+            get_types: function () {
+                $.ajax({
+                    type: "POST",//方法类型
+                    url: "{:url('/book_header')}",//url
+                    success: function (result) {
+                        type_vm.result = result
+                    }
+                });
+            },
+            get_cart_info: function () {
+                $.ajax({
+                    type: "POST",//方法类型
+                    url: "{:url('/get_cart_info')}",//url
+                    success: function (result) {
+                        type_vm.cart_info = result.cart_info;
+                        type_vm.total_price = result.total_price;
+                        type_vm.product_num = result.product_num;
+                    }
+                });
+            }
+        }
+    });
+    type_vm.get_types();
+    type_vm.get_cart_info();
+    function delete_cart_item (bid) {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/delete_cart_item')}",//url
+            data: {
+                bid: bid,
+            },
+            success: function (result) {
+                if(result.msg == 1){
+                    type_vm.get_cart_info();
+                }
+            }
+        });
+    }
+</script>
+</html>

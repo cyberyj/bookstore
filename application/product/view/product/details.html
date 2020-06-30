@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://v.bootstrapmb.com/2018/7/rlrum1631/product-details.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>商品详情</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+</head>
+<body class="product-details">
+{include file="public/static/book/header/header.html"}
+<div class="breadcrumbs-area mb-70" style="border-bottom: none;">
+    <div class="container">
+    </div>
+</div><!-- breadcrumbs-area-end --><!-- product-main-area-start -->
+<div class="product-main-area mb-70" style="margin-bottom: 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12"><!-- product-main-area-start -->
+                <div class="product-main-area">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            <div class="flexslider">
+                                <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                                    <ul class="slides"
+                                        style="width: 1200%; transition-duration: 0s; transform: translate3d(-328px, 0px, 0px);">
+                                        {volist name='imgs' id='imgItem'}
+                                        <li data-thumb="__IMAGE__/{$imgItem.img}" class="clone" aria-hidden="true" style="text-align: center !important; display: block;">
+                                            <img src="__IMAGE__/{$imgItem.img}" style="width: 248px;height: 375px" alt="woman" draggable="false">
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                </div>
+                                <ul class="flex-direction-nav">
+                                    <li class="flex-nav-prev"><a class="flex-prev"
+                                                                 href="#">上一张</a>
+                                    </li>
+                                    <li class="flex-nav-next"><a class="flex-next"
+                                                                 href="#">下一张</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                            <div class="product-info-main">
+                                <div class="page-title"><h1>{$bookData.bname}</h1></div>
+                                <div class="product-info-stock-sku">
+                                    <div class="product-attribute">
+                                    </div>
+                                </div>
+                                <div class="product-reviews-summary" style="border-bottom: none;margin-bottom: 0px;">
+                                    <div class="rating-summary"><a
+                                            href="#"><i
+                                            class="fa fa-star"></i></a><a
+                                            href="#"><i
+                                            class="fa fa-star"></i></a><a
+                                            href="#"><i
+                                            class="fa fa-star"></i></a><a
+                                            href="#"><i
+                                            class="fa fa-star"></i></a><a
+                                            href="#"><i
+                                            class="fa fa-star"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-info-price">
+                                    <div class="price-final">
+                                        <span>￥{$bookData.price}</span>
+                                    </div>
+                                </div>
+                                <div class="product-add-form app">
+                                    <form id="dialog-form" action="#">
+                                        <div class="quality-button">
+                                            <input type="number" name="num" id="good_num_input" value="1">
+                                        </div>
+                                        <input type="hidden" name="bid" id="bid_input" value="{$bookData.bid}">
+                                        <a class="btn-add-cart" href="javascript:void(0);" @click="add_cart">加入购物车</a>
+                                    </form>
+                                </div>
+                                <div class="product-social-links">
+                                    <div class="product-addto-links-text"><p>{$bookData.detail}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- product-main-area-end --><!-- product-info-area-start -->
+                <div class="new-book-area mt-60">
+                    <div class="tab-active-2 owl-carousel owl-loaded owl-drag"><!-- single-product-start -->
+
+                    </div>
+                </div><!-- new-book-area-start -->
+            </div>
+            {if count($relatedBooks)>0}
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="shop-left">
+                    <div class="left-title mb-20"><h4>相关</h4></div>
+                    <div class="random-area mb-30">
+                        <div class="product-active-2 owl-carousel owl-loaded owl-drag">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage"
+                                     style="transform: translate3d(-526px, 0px, 0px); transition: 0s; width: 1578px;">
+                                    <div class="owl-item cloned" style="width: 263px;">
+                                        <div class="product-total-2">
+                                            {volist name='relatedBooks' id='item'}
+                                            <div class="single-most-product bd mb-18">
+                                                <div class="most-product-img">
+                                                    <a href="{:url('/show_details')}/bid/{$item.bid}">
+                                                        <img src="__IMAGE__/{$item.cover}" alt="book">
+                                                    </a>
+                                                </div>
+                                                <div class="most-product-content">
+                                                    <div class="product-rating">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$item.bid}"><i class="fa fa-star"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$item.bid}"><i class="fa fa-star"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$item.bid}"><i class="fa fa-star"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$item.bid}"><i class="fa fa-star"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{:url('/show_details')}/bid/{$item.bid}"><i class="fa fa-star"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <h4>
+                                                        <a href="{:url('/show_details')}/bid/{$item.bid}">{$item.bname}</a>
+                                                    </h4>
+                                                    <div class="product-price">
+                                                        <ul>
+                                                            <li>￥{$item.price}</li>
+                                                            <li class="old-price">￥{$item.price}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/volist}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{include file="public/static/book/footer/footer.html"}
+</body>
+<script>
+    var data ={
+    }
+    var vm = new Vue({
+        el: ".app",
+        data: data,
+        methods:{
+            add_cart: function () {
+                var tempData = $("#dialog-form").serialize();
+                $.ajax({
+                    type: "POST",//方法类型
+                    url: "{:url('/add_cart')}",//url
+                    data: tempData,
+                    success: function (result) {
+                        if(result.msg == 1){
+                            type_vm.get_cart_info();
+                            alert("添加购物车成功！");
+                        }else if(result.msg == 0){
+                            type_vm.get_cart_info();
+                            alert("添加购物车失败！");
+                        }
+                    },
+                    error:function (result) {
+                        alert("网络环境异常，发生异常错误！");
+                    }
+                });
+            }
+        },
+    });
+</script>
+</html>

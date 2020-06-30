@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)# -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>网上书店</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body class="">
+{include file="public/static/book/header/header.html"}
+<div class="banner-area banner-res-large ptb-35">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="single-banner">
+                    <div class="banner-img"><a href="#"><img
+                            src="__STATIC__/images/40.png" alt="banner"></a></div>
+                    <div class="banner-text"><h4>免费配送订单</h4>
+                        <p>订单金额大于¥500</p></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="single-banner">
+                    <div class="banner-img"><a href="#"><img
+                            src="__STATIC__/images/2.png" alt="banner"></a></div>
+                    <div class="banner-text"><h4>退款保证</h4>
+                        <p>100%退款保证</p></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 hidden-sm col-xs-12">
+                <div class="single-banner">
+                    <div class="banner-img"><a href="#"><img
+                            src="__STATIC__/images/3.png" alt="banner"></a></div>
+                    <div class="banner-text"><h4>货到付款</h4>
+                        <p>支持货到付款</p></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="single-banner mrg-none-xs">
+                    <div class="banner-img"><a href="#"><img
+                            src="__STATIC__/images/4.png" alt="banner"></a></div>
+                    <div class="banner-text"><h4>帮助 &amp; 支持</h4>
+                        <p>联系我们 : + 0123.4567.89</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="slider-area">
+    <div class="slider-active owl-carousel owl-loaded owl-drag">
+        <div class="owl-stage-outer">
+            <div class="owl-stage"
+                 style="transform: translate3d(-3330px, 0px, 0px); transition: all 0s ease 0s; width: 9990px;">
+                <div class="owl-item cloned" style="width: 1665px;">
+                    <div class="single-slider pt-125 pb-130 bg-img" style="background-image:url(__STATIC__/img/slider/1.jpg);">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="slider-content slider-animated-1 text-center"><h1>{$randBook.bname}</h1>
+                                        <h2>{$randBook.writer}</h2>
+                                        <h3>现在开始 ¥{$randBook.price}</h3><a href="{:url('/show_details')}/bid/{$randBook.bid}">立刻购买</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-item cloned" style="width: 1665px;">
+                    <div class="single-slider slider-h1-2 pt-215 pb-100 bg-img"
+                         style="background-image:url(__STATIC__/img/slider/2.jpg);">
+                        <div class="container">
+                            <div class="slider-content slider-content-2 slider-animated-1"><h1>我们可以帮你</h1>
+                                <h2>书整理好</h2>
+                                <h3>装饰好</h3><a href="#">今天联系我!</a></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="owl-nav">
+            <button type="button" role="presentation" class="owl-prev"><i class="fa fa-angle-left"></i></button>
+            <button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-right"></i></button>
+        </div>
+        <div class="owl-dots">
+            <button role="button" class="owl-dot active"><span></span></button>
+            <button role="button" class="owl-dot"><span></span></button>
+        </div>
+    </div>
+</div>
+<div class="product-area pt-95 xs-mb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center mb-50"><h2>温馨提示</h2>
+                    <p>浏览我们最畅销和最畅销的相关产品的集合。<br>
+                        一定会找到你想要的……</p></div>
+            </div>
+            <div class="col-lg-12"><!-- tab-menu-start -->
+                <div class="tab-menu mb-40 text-center">
+                    <ul>
+                        {if ($type==1)}
+                        <li class="active"><a href="{:url('/show_index')}" data-toggle="tab">新品</a></li>
+                        <li ><a href="{:url('/show_index')}/type/2" >畅销</a></li>
+                        <li ><a href="{:url('/show_index')}/type/3">主要产品</a></li>
+                        {elseif ($type==2) /}
+                        <li ><a href="{:url('/show_index')}">新品</a></li>
+                        <li  class="active"><a href="{:url('/show_index')}/type/2" >畅销</a></li>
+                        <li ><a href="{:url('/show_index')}/type/3">主要产品</a></li>
+                        {elseif ($type==3) /}
+                        <li ><a href="{:url('/show_index')}">新品</a></li>
+                        <li ><a href="{:url('/show_index')}/type/2" >畅销</a></li>
+                        <li class="active"><a href="{:url('/show_index')}/type/3">主要产品</a></li>
+                        {/if}
+                    </ul>
+                </div><!-- tab-menu-end --></div>
+        </div><!-- tab-area-start -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="Audiobooks">
+                <div class="tab-active owl-carousel owl-loaded owl-drag">
+                        <div class="owl-stage"
+                             style="transform: translate3d(-1160px, 0px, 0px); transition: 0s; width: 3712px;">
+                              {foreach $books as $book}
+                            <div class="owl-item active" style="width: 212px; margin-right: 20px;">
+                                <div class="product-wrapper">
+                                    <div class="product-img">
+                                        <a href="{:url('/show_details')}/bid/{$book.bid}">
+                                            <img src="__IMAGE__/{$book.cover}" alt="book" class="primary">
+                                        </a>
+                                        <div class="quick-view">
+                                            <button style="display: none" id="open" data-target="#productModal" data-toggle="modal">打开商品详情</button>
+                                            <a class="action-view" href="javascript:void(0);" onclick="showProductDetail('{$book.bid}')" title="商品详情">
+                                                <i class="fa fa-search-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="product-flag">
+                                            <ul>
+                                                <li><span class="sale">new</span></li>
+                                                <li><span class="discount-percentage">-5%</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-details text-center">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i
+                                                        class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i
+                                                        class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="{:url('/show_details')}/bid/{$book.bid}">{$book.bname}</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>¥{$book.price}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-link">
+                                        <div class="product-button"><a
+                                                href="javascript:void(0);"
+                                                onclick='addCart("{$book.bid}")'
+                                                title="添加购物车"><i class="fa fa-shopping-cart"></i>添加购物车</a>
+                                        </div>
+                                        <div class="add-to-link">
+                                            <ul>
+                                                <li>
+                                                    <a href="{:url('/show_details')}/bid/{$book.bid}"
+                                                       title="商品详情"><i class="fa fa-external-link"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             {/foreach}
+                        </div>
+                         <!--这是一个-->
+
+                    </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="books">
+                <div class="tab-active owl-carousel owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage"
+                             style="transform: translate3d(-1160px, 0px, 0px); transition: 0s; width: 3712px;">
+
+                        </div>
+                    </div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev"><i class="fa fa-angle-left"></i>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-right"></i>
+                        </button>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="bussiness">
+                <div class="tab-active owl-carousel owl-loaded owl-drag">
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev"><i class="fa fa-angle-left"></i>
+                        </button>
+                        <button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-right"></i>
+                        </button>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                </div>
+            </div>
+        </div><!-- tab-area-end --></div>
+</div><!-- product-area-end --><!-- banner-area-start -->
+<div class="banner-area-5 mtb-95">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-img-2"><a href="#"><img
+                        src="__STATIC__/images/34.jpg" alt="banner"></a>
+                    <div class="banner-text"><h3>新注册的会员，购买图书</h3>
+                        <h2>最多可享受30%的折扣</h2></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- banner-area-end --><!-- bestseller-area-start -->
+<div class="new-book-area pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title bt text-center pt-100 mb-30 section-title-res"><h2>特色图书</h2></div>
+            </div>
+        </div>
+        <div class="tab-active owl-carousel owl-loaded owl-drag">
+            <div class="owl-stage-outer">
+                <div class="owl-stage"
+                     style="transform: translate3d(-1160px, 0px, 0px); transition: 0s; width: 3712px;">
+                    {foreach $featureOne as $feature_book1}
+                    <div class="owl-item active" style="width: 212px; margin-right: 20px;">
+
+                        <div class="tab-total">
+                         <!-- single-product-start -->
+                            <div class="product-wrapper mb-40">
+                                <div class="product-img"><a
+                                        href="{:url('/show_details')}/bid/{$feature_book1.bid}"><img
+                                        src="__IMAGE__/{$feature_book1.cover}" alt="book" class="primary"></a>
+                                    <div class="quick-view"><a class="action-view" href="javascript:void(0);" onclick="showProductDetail('{$feature_book1.bid}')" title="商品详情"><i class="fa fa-search-plus"></i></a>
+                                    </div>
+                                    <div class="product-flag">
+                                        <ul>
+                                            <li><span class="sale">new</span></li>
+                                            <li><span class="discount-percentage">-5%</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-details text-center">
+                                    <div class="product-rating">
+                                        <ul>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <h4><a href="{:url('/show_details')}/bid/{$feature_book1.bid}">{$feature_book1.bname}</a></h4>
+                                    <div class="product-price">
+                                        <ul>
+                                            <li>¥{$feature_book1.price}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-link">
+                                    <div class="product-button"><a
+                                            href="javascript:void(0);"
+                                            onclick='addCart("{$feature_book1.bid}")'
+                                            title="添加购物车"><i class="fa fa-shopping-cart"></i>添加购物车</a></div>
+                                    <div class="add-to-link">
+                                        <ul>
+                                            <li><a href="{:url('/show_details')}/bid/{$feature_book1.bid}"
+                                                   title="商品详情"><i class="fa fa-external-link"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-end -->
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+                <div class="owl-stage"
+                     style="transform: translate3d(-1160px, 0px, 0px); transition: 0s; width: 3712px;">
+                    {foreach $featureTwo as $feature_book2}
+                    <div class="owl-item active" style="width: 212px; margin-right: 20px;">
+
+                        <div class="tab-total">
+                            <!-- single-product-start -->
+                            <div class="product-wrapper mb-40">
+                                <div class="product-img"><a
+                                        href="{:url('/show_details')}/bid/{$feature_book2.bid}"><img
+                                        src="__IMAGE__/{$feature_book2.cover}" alt="book" class="primary"></a>
+                                    <div class="quick-view">
+                                        <a class="action-view" href="javascript:void(0);" onclick="showProductDetail('{$book.bid}')" title="商品详情"><i class="fa fa-search-plus"></i></a>
+                                    </div>
+                                    <div class="product-flag">
+                                        <ul>
+                                            <li><span class="sale">new</span></li>
+                                            <li><span class="discount-percentage">-5%</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-details text-center">
+                                    <div class="product-rating">
+                                        <ul>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i
+                                                    class="fa fa-star"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <h4><a href="{:url('/show_details')}/bid/{$feature_book2.bid}">{$feature_book2.bname}</a></h4>
+                                    <div class="product-price">
+                                        <ul>
+                                            <li>¥{$feature_book2.price}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="product-link">
+                                    <div class="product-button"><a
+                                            href="javascript:void(0);"
+                                            onclick='addCart("{$feature_book2.bid}")'
+                                            title="添加购物车"><i class="fa fa-shopping-cart"></i>添加购物车</a></div>
+                                    <div class="add-to-link">
+                                        <ul>
+                                            <li><a href="{:url('/show_details')}/bid/{$feature_book2.bid}"
+                                                   title="商品详情"><i class="fa fa-external-link"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-end -->
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+            </div>
+            <div class="owl-nav">
+                <button type="button" role="presentation" class="owl-prev"><i class="fa fa-angle-left"></i></button>
+                <button type="button" role="presentation" class="owl-next"><i class="fa fa-angle-right"></i></button>
+            </div>
+            <div class="owl-dots disabled"></div>
+        </div>
+    </div>
+</div>
+{include file="public/static/book/footer/footer.html"}
+</div>
+{include file="public/static/book/dialog/dialog.html"}
+</body>
+<script type="text/javascript">
+  function addCart(bid) {
+      $.ajax({
+          type: "POST",//方法类型
+          dataType: "json",//预期服务器返回的数据类型
+          url: "{:url('/add_cart')}",//url
+          data: {
+              bid: bid,
+              num:1,
+          },
+          success: function (result) {
+            if (result.msg===1){
+                alert("添加购物车成功");
+            }
+          },
+          error:function (result) {
+              console.log(result);
+              layer.msg("服务器繁忙,请稍后重试!",{icon:0,time:1000})
+          }
+      });
+  }
+</script>
+</html>

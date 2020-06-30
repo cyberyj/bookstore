@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://v.bootstrapmb.com/2018/7/rlrum1631/register.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>网上书店</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+    <!-- all css here --><!-- bootstrap v3.3.6 css -->
+
+    <style>
+        .tips {
+            color: #ff3131e3;
+            line-height: 30px;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body class="register">
+
+{include file="public/static/book/header/header.html"}
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">主页</a></li>
+                        <li><a href="#" class="active">注册用户</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- breadcrumbs-area-end --><!-- user-login-area-start -->
+<div class="user-login-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="login-title text-center mb-30"><h2>注册用户</h2>
+                    <p>欢迎你成为网上书店的会员</p></div>
+            </div>
+            <div class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-12 col-xs-12">
+                <div class="billing-fields">
+                    <div class="single-register">
+                        <form>
+                            <label>用户名
+                                <span>*</span>
+                                <span class="tips" id="userNameTips"></span>
+                            </label>
+                            <input type="text" name="username" id="username"></form>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="single-register">
+                                <form>
+                                    <label>密码
+                                        <span>*</span>
+                                        <span class="tips" id="passwordTips"></span>
+                                    </label>
+                                    <input type="password" name="password" id="password"></form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="single-register">
+                                <form>
+                                    <label>确认密码
+                                        <span>*</span>
+                                        <span class="tips" id="passwordReTips"></span>
+                                    </label>
+                                    <input type="password" name="password_confirm" id="password_confirm"></form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="single-register">
+                        <form>
+                            <label>邮箱
+                                <span>*</span>
+                                <span class="tips" id="emailTips"></span>
+                            </label>
+                            <input type="text" name="email" id="email">
+                        </form>
+                    </div>
+
+                    <div class="single-register">
+                        <form>
+                            <label>电话
+                                <span>*</span>
+                                <span class="tips" id="phoneTips"></span>
+                            </label>
+                            <input type="text" name="phone" id="phone">
+                        </form>
+                    </div>
+                    <div class="single-register">
+                        <form><label>地址
+                            <span>*</span>
+                            <span class="tips" id="addressTips"></span>
+                        </label>
+                            <input type="text" name="address" id="address"></form>
+                    </div>
+                    <div class="single-register single-register-3"><input id="rememberme" type="checkbox"
+                                                                          name="rememberme" value="forever"><label
+                            class="inline">I agree <a href="">Terms
+                        &amp; Condition</a></label></div>
+                </div>
+                <div class="single-register"><a onclick="register()">注册</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div><!-- user-login-area-end --><!-- footer-area-start -->
+{include file="public/static/book/footer/footer.html"}
+<div id="ext_overlay" class="ext_overlayBG" style="display: none; z-index: 2147483646;"></div>
+</body>
+<script type="text/javascript">
+    $("input").keyup(function () {
+        $(this).prev('label').find('#userNameTips').html('');
+    });
+    $("#username").blur(function () {
+        var username = $("#username").val();
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/user_check')}",//url
+            data: {
+                username: username,
+            },
+            success: function (result) {
+                if (result.msg === 0) {
+                    $('#userNameTips').removeClass('tipsGreen');
+                    $('#userNameTips').html("用户名已经存在！")
+                } else if (result.msg === 1) {
+                    $('#userNameTips').addClass('tipsGreen');
+                    $('#userNameTips').html("用户名可以使用！")
+
+                } else {
+                    $('#userNameTips').html(result.msg);
+                }
+            },
+            error: function () {
+                alert("服务器繁忙,请稍后重试!");
+            }
+        });
+    });
+
+    function register() {
+
+        let username = $("#username").val();
+        let password = $("#password").val();
+        let password_confirm = $("#password_confirm").val();
+        let email = $("#email").val();
+        let phone = $("#phone").val();
+        let address = $("#address").val();
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/user_register')}",//url
+            data: {
+                username: username,
+                password: password,
+                password_confirm: password_confirm,
+                email: email,
+                phone: phone,
+                address: address
+            },
+            success: function (result) {
+                if (result.msg === 0) {
+                    $('#userNameTips').html("用户名不能为空");
+                } else if (result.msg === 1) {
+                    $('#userNameTips').html("用户名不能超过25个字符");
+                } else if (result.msg === 2) {
+                    $('#passwordTips').html("密码不能为空");
+                } else if (result.msg === 3) {
+                    $('#passwordTips').html("密码最多16位");
+                } else if (result.msg === 4) {
+                    $('#passwordTips').html("密码最少6位");
+                } else if (result.msg === 5) {
+                    $('#passwordReTips').html("两次密码不一致");
+                } else if (result.msg === 6) {
+                    $('#phoneTips').html("联系方式格式错误");
+                } else if (result.msg === 7) {
+                    $('#emailTips').html("邮箱格式错误");
+                } else if (result.msg === 8) {
+                    $('#addressTips').html("地址不能为空");
+                }else if(result.msg===9){
+                    $('#userNameTips').removeClass('tipsGreen');
+                    $('#userNameTips').html("用户名已经存在！");
+                } else if (result.msg === 'success') {
+                    alert("注册成功");
+                    window.location.href = "{:url('/show_index')}"
+                } else {
+                    alert(result.msg);
+                }
+
+            },
+            error: function () {
+                alert("服务器繁忙,请稍后重试!");
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://v.bootstrapmb.com/2018/7/rlrum1631/login.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>登录</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+    <!-- all css here --><!-- bootstrap v3.3.6 css -->
+
+    <style>
+        .hover-c{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="login"><!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong>browser. Please
+    <a href="http://browsehappy.com/">upgrade your browser</a>to improve your experience.</p><![endif]-->
+<!-- Add your site or application content here --><!-- header-area-start -->
+{include file="public/static/book/header/header.html"}
+<div class="breadcrumbs-area mb-70" style="border-bottom: none">
+
+</div><!-- breadcrumbs-area-end --><!-- user-login-area-start -->
+<div class="user-login-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="login-title text-center mb-30"><h2>登录</h2></div>
+            </div>
+            <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-12 col-xs-12">
+                <form id="login-form">
+                    <div class="login-form">
+                        <div class="single-login"><label>用户名或邮箱<span>*</span></label><input type="text" name="username"></div>
+                        <div class="single-login"><label>密码 <span>*</span></label><input type="password" name="password"></div>
+                        <div class="single-login single-login-2"><a class="hover-c" onclick="submit_form()">登录</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- user-login-area-end --><!-- footer-area-start -->
+{include file="public/static/book/footer/footer.html"}
+
+<a id="scrollUp" href="http://v.bootstrapmb.com/2018/7/rlrum1631/login.html#top"
+   style="display: none; position: fixed; z-index: 2147483647;"><i class="fa fa-angle-up"></i></a></body>
+<script>
+    function submit_form() {
+        $.ajax({
+            type: 'post',
+            url: "{:url('/user_login')}",
+            data: $("#login-form").serialize(),
+            success: function(data) {
+                if(data.msg != 1){
+                    alert(data.msg)
+                    return
+                }
+                window.location="{:url('/show_index')}"
+            },
+            error: function () {
+                console.log("异常！");
+            }
+        });
+    }
+</script>
+</html>

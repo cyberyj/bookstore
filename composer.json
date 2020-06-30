@@ -1,0 +1,6 @@
+{
+  
+    "require": {
+        "topthink/think-image": "^1.0"
+    }
+}

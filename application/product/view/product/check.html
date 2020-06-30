@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://v.bootstrapmb.com/2018/7/rlrum1631/checkout.html -->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>商品结算</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="http://v.bootstrapmb.com/2018/7/rlrum1631/img/favicon.png">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .pay{
+            display: inline-block;
+            background: #333 none repeat scroll 0 0;
+            border: medium none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            height: 49px;
+            letter-spacing: 0.025em;
+            line-height: 49px;
+            padding: 0 40px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .pay:focus{
+            display: inline-block;
+            background: #333 none repeat scroll 0 0;
+            border: medium none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            height: 49px;
+            letter-spacing: 0.025em;
+            line-height: 49px;
+            padding: 0 40px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .pay:hover{
+            color: #fff;
+            background: #f07c29 none repeat scroll 0 0;
+        }
+    </style>
+</head>
+<body class="checkout">
+{include file="public/static/book/header/header.html"}
+<div class="breadcrumbs-area mb-70" style="border-bottom: none;padding: 0px;">
+    <div class="container">
+    </div>
+</div><!-- breadcrumbs-area-end --><!-- entry-header-area-start -->
+<div class="checkout-area mb-70 app">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="left: 25%">
+                <div class="checkbox-form choice-addr"><h3>选择收货地址</h3>
+                    <div class="row">
+                        <form id="choice_harvest">
+                            <div class=" col-lg-12" style="font-size: 16px;">
+                                <!--这里写 收件地址-->
+                                {foreach $harvestDatas as $key=>$harvestItem}
+                                <div>
+                                    <label>
+                                        <input type="radio" name="h_a_id" value="{$harvestItem.h_a_id}" {if $key == 0}checked{/if}>
+                                        <span>{$harvestItem.consignee}</span>
+                                        <span>{$harvestItem.contact}</span>
+                                        <span style="margin-left: 6px;">地址：</span><span>{$harvestItem.addr}</span>
+                                    </label>
+                                </div>
+                                {/foreach}
+                            </div>
+                        </form>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <a class="pay" href="javascript:void(0);" style="line-height: 42px;padding: 0px 27px;height: 42px;" @click="add_harvest_addr">选用其它地址</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox-form edit-harvest" style="margin-top: 10px;display: none;">
+                    <h3>选用其它地址</h3>
+                    <div class="row">
+                        <form id="new_harvest">
+                            <div class=" col-lg-12">
+                                <!--这里写 收件地址-->
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="checkout-form-list"><label>收件人</label><input type="text" name="consignee" placeholder="请输入收件人姓名"></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="checkout-form-list"><label>收件地址<span
+                                        class="required">*</span></label><input type="text" name="addr" placeholder="收件地址"></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="checkout-form-list"><label>联系电话<span
+                                        class="required">*</span></label><input type="text" name="contact" placeholder="联系电话"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="different-address">
+                    <div class="order-notes">
+                        <div class="checkout-form-list"><label for="checkout-mess">买家留言</label>
+                            <textarea placeholder="有什么要对卖家说的。。" v-model="l_mes" rows="10"
+                                      cols="30" id="checkout-mess"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox-form" style="margin-top: 10px;">
+                    <a class="pay" href="javascript:void(0);" @click="buy">购买</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- checkout-area-end --><!-- footer-area-start -->
+{include file="public/static/book/footer/footer.html"}
+</body>
+<script>
+    var data ={
+        l_mes: "",
+        is_add_harvest: false
+    }
+    var vm = new Vue({
+        el: ".app",
+        data: data,
+        methods:{
+            add_harvest_addr: function () {
+                $(".choice-addr").slideUp();
+                $(".edit-harvest").slideDown();
+                vm.is_add_harvest = true;
+            },
+            buy: function () {
+                var params = "";
+                if(vm.is_add_harvest){
+                    params = $("#new_harvest").serialize();
+                }else{
+                    params = $("#choice_harvest").serialize()
+                }
+                if(vm.l_mes != ""){
+                    params += "&l_msg="+vm.l_mes;
+                }
+                $.ajax({
+                    type: "POST",//方法类型
+                    url: "{:url('/check_out')}",//url
+                    data: params,
+                    success: function (result) {
+                        if(result.msg == 1){
+                            alert("购买成功！请耐心等待商品到达您的手中！")
+                            window.location = "{:url('/show_plist')}";
+                        }
+                    },
+                    error:function (result) {
+                        alert("服务器繁忙,请稍后重试!")
+                    }
+                });
+            }
+        },
+    });
+</script>
+</html>

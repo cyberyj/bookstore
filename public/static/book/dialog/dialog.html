@@ -1,0 +1,161 @@
+<style>
+    .btn-add-cart{
+        display: inline-block;
+        background: #333 none repeat scroll 0 0;
+        border: medium none;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        height: 49px;
+        letter-spacing: 0.025em;
+        line-height: 49px;
+        margin-left: 45px;
+        padding: 0 30px;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    .btn-add-cart:focus{
+        display: inline-block;
+        background: #333 none repeat scroll 0 0;
+        border: medium none;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        height: 49px;
+        letter-spacing: 0.025em;
+        line-height: 49px;
+        margin-left: 45px;
+        padding: 0 30px;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    .btn-add-cart:hover{
+        color: #fff;
+        background: #f07c29 none repeat scroll 0 0;
+    }
+</style>
+<div class="modal fade app" id="productModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">x</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                        <div class="modal-tab">
+                            <div class="product-details-large tab-content" style="margin-bottom: 20px">
+                                <div class="tab-pane active" id="image-1" style="text-align: center;">
+                                    <img :src="'__IMAGE__/'+b_detail.cover" style="width: 244px;height: 340px;border-radius: 8px" alt="">
+                                </div>
+                            </div>
+                            <div class="product-details-small quickview-active owl-carousel owl-loaded owl-drag">
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: 0s;text-align: center">
+                                        <a class="active" v-for="item in b_detail.imgs" href="#">
+                                            <img style="width: 81px;height: 114px;margin: 2px" :src="'__IMAGE__/'+item.img" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-dots">
+                                    <button role="button" class="owl-dot active"><span></span></button>
+                                    <button role="button" class="owl-dot"><span></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div class="modal-pro-content"><h3>{{b_detail.bname}}</h3>
+                            <div class="price"><span>￥{{b_detail.price}}</span></div>
+                            <div>
+                                <span style="margin-right: 5px">
+                                    作者：<span>{{b_detail.writer}}</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span style="margin-right: 5px">
+                                    出版社：<span>{{b_detail.printer}}</span>
+                                </span>
+                            </div>
+                            <p style="height: 180px">
+                                <span>内容：</span>
+                                <span>{{b_detail.detail}}</span>
+                            </p>
+                            <form id="dialog-form" action="#">
+                                <input type="number" name="num" id="good_num_input" value="1">
+                                <input type="hidden" name="bid" id="bid_input" :value="b_detail.bid">
+                                <a class="btn-add-cart" href="javascript:void(0);" @click="add_cart">加入购物车</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- Modal end --><!-- all js here --><!-- jquery latest version -->
+
+<script>
+    var data ={
+        b_detail:{}
+    }
+    var vm = new Vue({
+        el: ".app",
+        data: data,
+        methods:{
+            get_book_detail: function (bid) {
+                $.ajax({
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "{:url('/book_detail')}",//url
+                    data: {
+                        bid: bid,
+                    },
+                    success: function (result) {
+                        vm.b_detail = result
+                        vm.cover = "__IMAGE__/"+result.cover;
+                        $("#open").click();
+                    },
+                    error:function (result) {
+                        alert("服务器繁忙,请稍后重试!")
+                    }
+                });
+            },
+            add_cart: function (bid) {
+                var flag = 1;
+                if(typeof bid == "string"){
+                    flag = 0;
+                    $("#bid_input").val(bid);
+                    $("#good_num_input").val(1);
+                }
+                var tempData = $("#dialog-form").serialize();
+                $.ajax({
+                    type: "POST",//方法类型
+                    url: "{:url('/add_cart')}",//url
+                    data: tempData,
+                    success: function (result) {
+                        if(result.msg == 1){
+                            alert("添加购物车成功！");
+                            type_vm.get_cart_info();
+                            if(flag == 1){
+                                $("#open").click();
+                            }
+                        }else if(result.msg == 0){
+                            alert("添加购物车失败！");
+                            type_vm.get_cart_info();
+                        }
+                    },
+                    error:function (result) {
+                        alert("网络环境异常，发生异常错误！");
+                    }
+                });
+            }
+        },
+    });
+    function showProductDetail(bid) {
+        vm.get_book_detail(bid)
+    }
+    function add_cart_f(bid) {
+        vm.add_cart(bid)
+    }
+</script>
